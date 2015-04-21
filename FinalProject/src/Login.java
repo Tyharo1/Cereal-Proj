@@ -123,7 +123,7 @@ public class Login extends javax.swing.JFrame {
         
         dispose();
         //create an instance of the main menu by setting it as visable
-        new MainMenu().setVisible(true);
+        new CustMainMenu().setVisible(true);
     }//GEN-LAST:event_LoginButtonActionPerformed
 
     /**
