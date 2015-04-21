@@ -1,0 +1,6 @@
+--- BEGIN RECORD ---
+Student Id: 3
+Exam Id: 1
+Grade: 90
+Student 3 not found
+--- END RECORD ---
