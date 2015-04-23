@@ -87,8 +87,8 @@
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="PasswordInput" max="32767" attributes="0"/>
-                      <Component id="UsernameInput" max="32767" attributes="0"/>
+                      <Component id="passwordinput" max="32767" attributes="0"/>
+                      <Component id="usernameinput" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -100,12 +100,12 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="UsernameInput" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="usernameinput" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="PasswordInput" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="passwordinput" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -123,9 +123,15 @@
             <Property name="text" type="java.lang.String" value="Password:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="UsernameInput">
+        <Component class="javax.swing.JTextField" name="usernameinput">
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="usernameinputActionPerformed"/>
+          </Events>
         </Component>
-        <Component class="javax.swing.JTextField" name="PasswordInput">
+        <Component class="javax.swing.JTextField" name="passwordinput">
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="passwordinputActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -133,6 +139,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Clear"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ClearLoginButtonActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="ExitButton">
       <Properties>

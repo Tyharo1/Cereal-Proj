@@ -8,6 +8,11 @@
  *
  * @author BUS118
  */
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
 public class Login extends javax.swing.JFrame {
 
     /**
@@ -30,8 +35,8 @@ public class Login extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        UsernameInput = new javax.swing.JTextField();
-        PasswordInput = new javax.swing.JTextField();
+        usernameinput = new javax.swing.JTextField();
+        passwordinput = new javax.swing.JTextField();
         ClearLoginButton = new javax.swing.JButton();
         ExitButton = new javax.swing.JButton();
 
@@ -51,6 +56,18 @@ public class Login extends javax.swing.JFrame {
 
         jLabel2.setText("Password:");
 
+        usernameinput.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                usernameinputActionPerformed(evt);
+            }
+        });
+
+        passwordinput.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                passwordinputActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -62,8 +79,8 @@ public class Login extends javax.swing.JFrame {
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(PasswordInput)
-                    .addComponent(UsernameInput))
+                    .addComponent(passwordinput)
+                    .addComponent(usernameinput))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -72,15 +89,20 @@ public class Login extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(UsernameInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(usernameinput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(PasswordInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(passwordinput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         ClearLoginButton.setText("Clear");
+        ClearLoginButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ClearLoginButtonActionPerformed(evt);
+            }
+        });
 
         ExitButton.setText("Exit");
 
@@ -118,13 +140,65 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void LoginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginButtonActionPerformed
-        
-        
-        
         dispose();
-        //create an instance of the main menu by setting it as visable
-        new CustMainMenu().setVisible(true);
+                    //create an instance of the main menu by setting it as visable
+                new CustMainMenu().setVisible(true);
+        Connection conn = null;
+        String username = usernameinput.getText();
+        String password = passwordinput.getText();
+        ResultSet res1 = null;
+        Boolean accountFound = null;
+        
+        String queryLogin = "SELECT * FROM Login WHERE User = "+username+" && Pass = "+password+";";
+        
+        try {
+            conn = ConnectionTest.getConnection();
+            Statement stm = conn.createStatement();
+            System.out.println("DB Connection successful");
+            // Need to read the student table
+            
+            res1 = stm.executeQuery(queryLogin);
+            System.out.println("login query good");
+            // check if I found the student
+            while (res1.next()){
+                accountFound = true;
+            }
+            
+            if (accountFound) {
+                dispose();
+                    //create an instance of the main menu by setting it as visable
+                new CustMainMenu().setVisible(true);
+            }
+            else {
+                System.out.println("Login Failed");
+            }
+           
+            conn.close();
+            System.exit(1);
+            
+        }
+        catch (Exception e) {
+            System.err.println("There was a problem with database " + e.getMessage());
+        } 
+        finally {
+            ConnectionTest.closeConnection(conn);
+
+        }
+        
     }//GEN-LAST:event_LoginButtonActionPerformed
+
+    private void usernameinputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameinputActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_usernameinputActionPerformed
+
+    private void passwordinputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordinputActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_passwordinputActionPerformed
+
+    private void ClearLoginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClearLoginButtonActionPerformed
+        usernameinput.setText(" ");
+        passwordinput.setText(" ");
+    }//GEN-LAST:event_ClearLoginButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -165,10 +239,10 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JButton ClearLoginButton;
     private javax.swing.JButton ExitButton;
     private javax.swing.JButton LoginButton;
-    private javax.swing.JTextField PasswordInput;
-    private javax.swing.JTextField UsernameInput;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JTextField passwordinput;
+    private javax.swing.JTextField usernameinput;
     // End of variables declaration//GEN-END:variables
 }
