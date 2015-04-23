@@ -25,7 +25,8 @@ SET time_zone = "+00:00";
 --
 -- Table structure for table `Coupon`
 --
-
+Create database Cereal;
+Use Cereal;
 CREATE TABLE IF NOT EXISTS `Coupon` (
   `ID` int(11) NOT NULL,
   `Coupon` text COLLATE utf8_bin NOT NULL,
