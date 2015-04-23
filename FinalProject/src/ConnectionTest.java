@@ -8,8 +8,8 @@ public class ConnectionTest {
         String url = "jdbc:mysql://localhost/";
         String dbName = "Cereal";
         String driver = "com.mysql.jdbc.Driver";
-        String userName = "";
-        String password = "";
+        String userName = "root";
+        String password = "password";
 
         Class.forName(driver).newInstance();
         Connection conn = DriverManager.getConnection(url + dbName, userName,password);
