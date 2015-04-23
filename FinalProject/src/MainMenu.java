@@ -283,39 +283,27 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void RefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RefreshActionPerformed
-        
-        
-        DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
+       DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
+        Connection conn = null;
         
         try{
-            //load JDBC driver
-            Class.forName("com.mysql.jdbc.Driver");
-            // create connection
-            Connection con = (Connection)DriverManager.getConnection("jdbc:mysql://localhost/sample", "root", "vulcan");
-            //create database statement
-            Statement SelectQuery = con.createStatement();
-            //my results will be stored here
-            //declare query before I execute it
-            String query = "select * from menu;";
-            ResultSet result = SelectQuery.executeQuery(query);
-            //puts data into the table
-            while (result.next()) {
-                String Column1 = result.getString("ID");
-                String Column2 = result.getString("Cereal");
-                String Column3 = result.getString("Price");
-                
-                //move local variables into the table we created
-                //new object is an array
-                model.addRow(new Object [] {Column1, Column2, Column3});
+            Class.forName("java.sql.Driver");
+            conn = ConnectionTest.getConnection();
+            Statement st = conn.createStatement();
+            String query = "Select * from menu;";
+            ResultSet res = st.executeQuery(query);
+            while (res.next()){
+            String coll0 = res.getString("ID");
+            String coll1 = res.getString("Cereal");
+            String coll2 = res.getString("Price");
+            model.addRow(new Object []  {coll0, coll1, coll2});
             }
-            //close everything when done with it to free up space/memory
-            con.close();
-            SelectQuery.close();
-            result.close();
-        }
-        catch (Exception ex) {
-            //display error message
-            JOptionPane.showMessageDialog(this, "Error in connectivity");       
+            res.close();
+            conn.close();
+            st.close();
+        }catch (Exception ex){
+        JOptionPane.showMessageDialog(this, "Error in connection");
+        
         }
         
     

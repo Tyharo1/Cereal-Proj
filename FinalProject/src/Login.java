@@ -172,7 +172,7 @@ public class Login extends javax.swing.JFrame {
             if (accountFound) {
                 dispose();
                     //create an instance of the main menu by setting it as visable
-                new CustMainMenu().setVisible(true);
+                new MainMenu().setVisible(true);
             }
             else {
                 System.out.println("Login Failed");
