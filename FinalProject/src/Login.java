@@ -147,7 +147,7 @@ public class Login extends javax.swing.JFrame {
     private void LoginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginButtonActionPerformed
         //dispose();
                     //create an instance of the main menu by setting it as visable
-                new CustMainMenu().setVisible(true);
+           //     new CustMainMenu().setVisible(true);
         Connection conn = null;
         String username = usernameinput.getText();
         String password = passwordinput.getText();

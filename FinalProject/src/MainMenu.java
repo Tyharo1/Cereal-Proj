@@ -8,6 +8,13 @@
  *
  * @author BUS118
  */
+
+import java.sql.DriverManager;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import java.sql.*;
+
+
 public class MainMenu extends javax.swing.JFrame {
 
     /**
@@ -32,6 +39,7 @@ public class MainMenu extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         jButton2 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        Refresh = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
@@ -74,6 +82,13 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
 
+        Refresh.setText("Refresh");
+        Refresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RefreshActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -81,11 +96,13 @@ public class MainMenu extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 354, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(Refresh, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -95,7 +112,8 @@ public class MainMenu extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2)
-                    .addComponent(jButton1)))
+                    .addComponent(jButton1)
+                    .addComponent(Refresh)))
         );
 
         jMenu1.setText("File");
@@ -264,6 +282,45 @@ public class MainMenu extends javax.swing.JFrame {
         new PlaceOrder().setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void RefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RefreshActionPerformed
+        
+        
+        DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
+        
+        try{
+            //load JDBC driver
+            Class.forName("com.mysql.jdbc.Driver");
+            // create connection
+            Connection con = (Connection)DriverManager.getConnection("jdbc:mysql://localhost/sample", "root", "vulcan");
+            //create database statement
+            Statement SelectQuery = con.createStatement();
+            //my results will be stored here
+            //declare query before I execute it
+            String query = "select * from menu;";
+            ResultSet result = SelectQuery.executeQuery(query);
+            //puts data into the table
+            while (result.next()) {
+                String Column1 = result.getString("ID");
+                String Column2 = result.getString("Cereal");
+                String Column3 = result.getString("Price");
+                
+                //move local variables into the table we created
+                //new object is an array
+                model.addRow(new Object [] {Column1, Column2, Column3});
+            }
+            //close everything when done with it to free up space/memory
+            con.close();
+            SelectQuery.close();
+            result.close();
+        }
+        catch (Exception ex) {
+            //display error message
+            JOptionPane.showMessageDialog(this, "Error in connectivity");       
+        }
+        
+    
+    }//GEN-LAST:event_RefreshActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -280,6 +337,7 @@ public class MainMenu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Refresh;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JMenu jMenu1;
