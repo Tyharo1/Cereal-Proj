@@ -9,7 +9,7 @@ public class ConnectionTest {
         String dbName = "Cereal";
         String driver = "com.mysql.jdbc.Driver";
         String userName = "root";
-        String password = "password";
+        String password = "vulcan";
 
         Class.forName(driver).newInstance();
         Connection conn = DriverManager.getConnection(url + dbName, userName,password);

@@ -1,6 +1,16 @@
 
 import java.sql.*;
-
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -87,18 +97,20 @@ public class ChangeMenu extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {},
-                {},
-                {},
-                {}
+
             },
             new String [] {
-
+                "ID", "Cereal", "Price"
             }
         ));
         jScrollPane2.setViewportView(jTable1);
 
         jButton4.setText("Refresh Menu");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText("Item ID:");
 
@@ -345,6 +357,31 @@ public class ChangeMenu extends javax.swing.JFrame {
         ItemNameInput.setText("");
         ItemPriceInput.setText("");
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+         DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
+        Connection conn = null;
+        
+        try{
+            Class.forName("java.sql.Driver");
+            conn = ConnectionTest.getConnection();
+            Statement st = conn.createStatement();
+            String query = "Select * from menu;";
+            ResultSet res = st.executeQuery(query);
+            while (res.next()){
+            String coll0 = res.getString("ID");
+            String coll1 = res.getString("Cereal");
+            String coll2 = res.getString("Price");
+            model.addRow(new Object []  {coll0, coll1, coll2});
+            }
+            res.close();
+            conn.close();
+            st.close();
+        }catch (Exception ex){
+        JOptionPane.showMessageDialog(this, "Error in connection");
+        
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments

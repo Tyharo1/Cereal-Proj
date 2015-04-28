@@ -63,7 +63,7 @@ public class MainMenu extends javax.swing.JFrame {
 
             },
             new String [] {
-
+                "ID", "Cereal", "Price"
             }
         ));
         jScrollPane1.setViewportView(jTable1);

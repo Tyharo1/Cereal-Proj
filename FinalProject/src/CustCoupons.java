@@ -3,7 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author Travis
@@ -48,13 +58,10 @@ public class CustCoupons extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {},
-                {},
-                {},
-                {}
+
             },
             new String [] {
-
+                "ID", "Coupon"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
@@ -67,6 +74,11 @@ public class CustCoupons extends javax.swing.JFrame {
         });
 
         jButton2.setText("Refresh Coupon List");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -214,6 +226,33 @@ public class CustCoupons extends javax.swing.JFrame {
 
         new CustMainMenu().setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
+        Connection conn = null;
+        
+        try{
+            Class.forName("java.sql.Driver");
+            conn = ConnectionTest.getConnection();
+            Statement st = conn.createStatement();
+            String query = "Select * from coupon;";
+            ResultSet res = st.executeQuery(query);
+            while (res.next()){
+            String coll0 = res.getString("ID");
+            String coll1 = res.getString("Coupon");
+            model.addRow(new Object []  {coll0, coll1});
+            }
+            res.close();
+            conn.close();
+            st.close();
+        }catch (Exception ex){
+        JOptionPane.showMessageDialog(this, "Error in connection");
+        
+        }
+        
+    
+    
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
